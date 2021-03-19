@@ -3,3 +3,7 @@
 # react17
 /react/node_modules
 /react/package-lock.json
+
+# vue2
+/vue2/node_modules
+/vue2/package-lock.json
