@@ -8,6 +8,11 @@
 /vue2/node_modules
 /vue2/package-lock.json
 
+# taro
+/taro/node_modules
+/taro/package-lock.json
+
+
 # flutter
 ## Miscellaneous
 /flutter/*.class
