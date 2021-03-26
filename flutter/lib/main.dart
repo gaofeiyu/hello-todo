@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './components/todoItem.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<TodoItem> showList() {
+    List list = [1, 2, 3, 4];
+    List<TodoItem> newList = list.map((e) => new TodoItem(e)).toList();
+    return newList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            ...showList(),
           ],
         ),
       ),
