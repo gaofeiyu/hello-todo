@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './components/todoItem.dart';
+import './components/todoList.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,12 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  List<TodoItem> showList() {
-    List list = [1, 2, 3, 4];
-    List<TodoItem> newList = list.map((e) => new TodoItem(e)).toList();
-    return newList;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,19 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            ...showList(),
-          ],
-        ),
+        child: (TodoList()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
