@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import './todoItem.dart';
 
 class TodoList extends StatelessWidget {
-  final List list = [];
+  final List list;
 
-  TodoList() {
-    this.list.addAll([1, 2, 3, 4]);
-  }
+  TodoList(this.list);
 
   @override
   Widget build(BuildContext context) {

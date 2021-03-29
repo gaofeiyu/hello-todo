@@ -28,11 +28,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  List<Map> _counter = [];
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      Map item = {'name': '新增${_counter.length}', 'checked': false};
+      _counter.add(item);
     });
   }
 
@@ -43,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: (TodoList()),
+        child: (TodoList(this._counter)),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

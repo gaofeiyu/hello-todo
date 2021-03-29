@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatelessWidget {
-  final int itemName;
+  final Map item;
 
-  TodoItem(this.itemName);
+  TodoItem(this.item);
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        title: Text(
-            '${this.itemName} TodoItem a long text.TodoItem a long text.TodoItem a long text.TodoItem a long text.TodoItem a long text.TodoItem a long text.TodoItem a long text.'));
+    return ListTile(title: Text('${this.item['name']}'));
   }
 }
