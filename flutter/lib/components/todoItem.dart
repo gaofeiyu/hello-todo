@@ -7,6 +7,13 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(title: Text('${this.item['name']}'));
+    return CheckboxListTile(
+      title: Text('${this.item['name']}'),
+      controlAffinity: ListTileControlAffinity.leading,
+      onChanged: (bool value) {
+        this.item['checked'] = value;
+      },
+      value: this.item['checked'],
+    );
   }
 }
