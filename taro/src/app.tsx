@@ -9,8 +9,21 @@ const store = {
   counterStore
 }
 
+type Props = {
+  children: any
+}
 class App extends Component {
+
+  constructor(props) {
+      super(props);
+      console.log(props)
+      this.props = props;
+  }
+
   componentDidMount () {}
+
+  props: Props;
+
 
   componentDidShow () {}
 
@@ -20,6 +33,7 @@ class App extends Component {
 
   // this.props.children 就是要渲染的页面
   render () {
+    console.log(this);
     return (
       <Provider store={store}>
         {this.props.children}
