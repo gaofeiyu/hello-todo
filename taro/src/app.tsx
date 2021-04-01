@@ -1,29 +1,14 @@
-import Nerv, { Component } from 'nervjs'
-import { Provider } from 'mobx-react'
+import { Component } from 'react'
+import { Provider } from 'react-redux'
 
-import counterStore from './store/counter'
+import configStore from './store'
 
 import './app.scss'
 
-const store = {
-  counterStore
-}
+const store = configStore()
 
-type Props = {
-  children: any
-}
 class App extends Component {
-
-  constructor(props) {
-      super(props);
-      console.log(props)
-      this.props = props;
-  }
-
   componentDidMount () {}
-
-  props: Props;
-
 
   componentDidShow () {}
 
@@ -31,9 +16,9 @@ class App extends Component {
 
   componentDidCatchError () {}
 
-  // this.props.children 就是要渲染的页面
+  // 在 App 类中的 render() 函数没有实际作用
+  // 请勿修改此函数
   render () {
-    console.log(this);
     return (
       <Provider store={store}>
         {this.props.children}

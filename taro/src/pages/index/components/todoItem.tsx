@@ -1,17 +1,33 @@
-import Nerv, { Component } from 'nervjs'
+import { Component } from 'react'
 
-class TodoItem extends Component {
+type TodoItemType = {
+  name: string,
+  checked: boolean,
+}
 
-    render() {
-        return (
-            <li>
-                <input type='checkbox' checked={this.props.item.checked} onChange={e => this.props.onSwitchItem(e.target.checked)} />
-                {this.props.item.name}
-                <button onClick={() => this.props.removeItem()}>移除</button>
-                <input type='text' value={this.props.item.name} onChange={e => this.props.editItem(e.target.value)} />
-            </li>
-        );
-    }
+interface PropsType {
+  item: TodoItemType;
+  removeItem: ()=>void;
+  editItem: (checked: boolean) => void;
+  onSwitchItem: (value: string) => void;
+}
+
+class TodoItem extends Component<PropsType> {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { removeItem, editItem, onSwitchItem, item } = this.props
+    return (
+      <li>
+        <input type='checkbox' checked={item.checked} onChange={(e: any) => onSwitchItem(e.target.checked)} />
+        {item.name}
+        <button onClick={() => removeItem()}>移除</button>
+        <input type='text' value={item.name} onChange={(e: any) => editItem(e.target.value)} />
+      </li>
+    );
+  }
 }
 
 export default TodoItem;

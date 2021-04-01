@@ -1,9 +1,33 @@
-import Nerv, { Component } from 'nervjs'
-import TodoItem from './components/todoItem.tsx'
+import { Component } from "react";
+import TodoItem from "./components/todoItem";
 // import { View, Button, Text } from '@tarojs/components'
 // import { observer, inject } from 'mobx-react'
 
-import './index.scss'
+import "./index.scss";
+
+enum FilterStatusType {
+  NONE = "none",
+  DONE = "done",
+  TODO = "todo",
+}
+
+type TodoItemType = {
+  name: string;
+  checked: boolean;
+};
+
+type TodoFilterType = {
+  status: FilterStatusType;
+};
+
+type StateType = {
+  list: TodoItemType[];
+  count: number;
+  keywords: string;
+  filters: TodoFilterType;
+};
+
+type IndexProps = {};
 
 // type PageStateProps = {
 //   store: {
@@ -22,136 +46,150 @@ import './index.scss'
 
 // @inject('store')
 // @observer
-class Index extends Component {
+class Index extends Component<IndexProps, StateType> {
   constructor(props) {
     super(props);
     this.state = {
-        list: [{
-            name: '测试1',
-            checked: false
-        }, {
-            name: '测试2',
-            checked: false
-        }],
-        count: 1,
-        keywords: '',
-        filters: {
-            status: 'none'
-        }
+      list: [
+        {
+          name: "测试1",
+          checked: false,
+        },
+        {
+          name: "测试2",
+          checked: false,
+        },
+      ],
+      count: 1,
+      keywords: "",
+      filters: {
+        status: FilterStatusType.NONE,
+      },
     };
-}
+  }
 
-addItem() {
+  addItem() {
     const list = this.state.list.slice();
-    const count = this.state.count
+    const count = this.state.count;
     list.push({
-        name: '新增' + count,
-        checked: false
+      name: "新增" + count,
+      checked: false,
     });
     this.setState({
-        count: count + 1,
-        list
-    })
-}
+      count: count + 1,
+      list,
+    });
+  }
 
-removeItem(index) {
+  removeItem(index) {
     const list = this.state.list.slice();
     list.splice(index, 1);
     this.setState({
-        list
-    })
-}
+      list,
+    });
+  }
 
-editItem(value, index) {
+  editItem(value, index) {
     const list = this.state.list.slice();
     list[index].name = value;
     this.setState({
-        list
-    })
-}
+      list,
+    });
+  }
 
-onSwitchItem(value, index) {
+  onSwitchItem(value, index) {
     const list = this.state.list.slice();
     list[index].checked = value;
     this.setState({
-        list
-    })
-}
+      list,
+    });
+  }
 
-onChangeKeywords(keywords) {
+  onChangeKeywords(keywords) {
     this.setState({
-        keywords
-    })
-}
+      keywords,
+    });
+  }
 
-onFilterDone(type) {
-    let status = this.state.filters.status;
+  onFilterDone(type: FilterStatusType) {
+    let status: FilterStatusType = this.state.filters.status;
     if (status === type) {
-        status = 'none'
+      status = FilterStatusType.NONE;
     } else {
-        status = type
+      status = type;
     }
     this.setState({
-        filters: {
-            status
-        }
-    })
-}
+      filters: {
+        status,
+      },
+    });
+  }
 
-filterList(list) {
+  filterList(list) {
     const filters = this.state.filters;
     const status = filters.status;
-    let newList = [];
-    newList = list.filter(item => {
-        return (status === 'done' && item.checked) || (status === 'todo' && !item.checked) || status === 'none';
-    })
+    let newList: TodoItemType[] = [];
+    newList = list.filter((item: TodoItemType) => {
+      return (
+        (status === "done" && item.checked) ||
+        (status === "todo" && !item.checked) ||
+        status === "none"
+      );
+    });
 
     return newList;
-}
+  }
 
-render() {
-    const keywords = this.state.keywords.trim();
-    let list = [];
+  render() {
+    const keywords: string = this.state.keywords.trim();
+    let list: TodoItemType[] = [];
     if (keywords) {
-        this.state.list.forEach(item => {
-            if (item.name.indexOf(keywords) > -1) {
-                list.push(item);
-            }
-        })
+      this.state.list.forEach((item: TodoItemType) => {
+        if (item.name.indexOf(keywords) > -1) {
+          list.push(item);
+        }
+      });
     } else {
-        list = this.state.list.slice();
+      list = this.state.list.slice();
     }
 
     list = this.filterList(list);
 
     return (
-        <div className='container'>
-            <button onClick={() => this.addItem()}>添加</button>
-            <div className='action-bar'>
-                <label htmlFor='search'>
-                    <input name='search' type='search' placeholder='输入关键字搜索' onChange={e => this.onChangeKeywords(e.target.value)} />
-                </label>
-                <button onClick={() => this.onFilterDone('done')}>已办</button>
-                <button onClick={() => this.onFilterDone('todo')}>待办</button>
-            </div>
-            <ul>
-                {
-                    list.map((item, index) => {
-                        return (
-                            <TodoItem
-                              key={index}
-                              item={item}
-                              removeItem={() => this.removeItem(index)}
-                              editItem={value => this.editItem(value, index)}
-                              onSwitchItem={value => this.onSwitchItem(value, index)}
-                            ></TodoItem>
-                        )
-                    })
-                }
-            </ul>
+      <div className="container">
+        <button onClick={() => this.addItem()}>添加</button>
+        <div className="action-bar">
+          <label htmlFor="search">
+            <input
+              name="search"
+              type="search"
+              placeholder="输入关键字搜索"
+              onChange={(e) => this.onChangeKeywords(e.target.value)}
+            />
+          </label>
+          <button onClick={() => this.onFilterDone(FilterStatusType.NONE)}>
+            已办
+          </button>
+          <button onClick={() => this.onFilterDone(FilterStatusType.TODO)}>
+            待办
+          </button>
         </div>
+        <ul>
+          {list.map((item: TodoItemType, index) => {
+            return (
+              <TodoItem
+                key={index}
+                item={item}
+                removeItem={() => this.removeItem(index)}
+                editItem={(value) => this.editItem(value, index)}
+                onSwitchItem={(value) => this.onSwitchItem(value, index)}
+              ></TodoItem>
+            );
+          })}
+        </ul>
+      </div>
     );
-}
+  }
 }
 
-export default Index
+export default Index;

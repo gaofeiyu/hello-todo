@@ -1,6 +1,6 @@
 const config = {
-  projectName: 'taro',
-  date: '2021-3-25',
+  projectName: 'myApp-todo',
+  date: '2021-3-31',
   designWidth: 750,
   deviceRatio: {
     640: 2.34 / 2,
@@ -18,7 +18,7 @@ const config = {
     options: {
     }
   },
-  framework: 'nerv',
+  framework: 'react',
   mini: {
     postcss: {
       pxtransform: {
