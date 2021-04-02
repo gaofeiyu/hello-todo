@@ -1,7 +1,7 @@
 import { Component } from "react";
+import { connect } from 'react-redux';
 import TodoItem from "./components/todoItem";
-// import { View, Button, Text } from '@tarojs/components'
-// import { observer, inject } from 'mobx-react'
+import { add, remove, asyncAdd } from '../../store/actions/todoList'
 
 import "./index.scss";
 
@@ -29,26 +29,40 @@ type StateType = {
 
 type IndexProps = {};
 
-// type PageStateProps = {
-//   store: {
-//     counterStore: {
-//       counter: number,
-//       increment: Function,
-//       decrement: Function,
-//       incrementAsync: Function
-//     }
-//   }
-// }
+type PageDispatchProps = {
+  add: () => void
+  remove: () => void
+  asyncAdd: () => any
+}
+type PageOwnProps = {}
 
-// interface Index {
-//   props: PageStateProps;
-// }
+type PageState = {}
 
-// @inject('store')
-// @observer
+type IProps = StateType & PageDispatchProps & PageOwnProps
+
+interface Index {
+  props: IProps;
+}
+
+@(connect(
+  ({ todoList }) => ({ todoList}),
+  (dispatch) => ({
+    add() {
+      dispatch(add())
+    },
+    remove(index) {
+      dispatch(remove(index))
+    }
+  })
+) as any)
+
 class Index extends Component<IndexProps, StateType> {
   constructor(props) {
     super(props);
+    console.log(this);
+    let filter: FilterStatusType = FilterStatusType.NONE;
+    type FilterStatusTypeStrings = keyof typeof FilterStatusType;
+    let filterType: FilterStatusTypeStrings = 'NONE';
     this.state = {
       list: [
         {
@@ -75,6 +89,7 @@ class Index extends Component<IndexProps, StateType> {
       name: "新增" + count,
       checked: false,
     });
+    this.props.add();
     this.setState({
       count: count + 1,
       list,

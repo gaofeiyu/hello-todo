@@ -1,16 +1,14 @@
-import {
-  ADD,
-  MINUS
-} from '../constants/counter'
+import { ADD, REMOVE } from '../constants/todoList'
 
 export const add = () => {
   return {
     type: ADD
   }
 }
-export const minus = () => {
+export const remove = (index: number) => {
   return {
-    type: MINUS
+    type: REMOVE,
+    index
   }
 }
 
